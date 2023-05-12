@@ -1,0 +1,82 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Foses api
+  description: api for civil war andalusian  
+
+paths:
+  /api/v1/fosess:
+    x-router-controller: fosesController  
+    get:
+      description: Returns all fosess
+      operationId: getFosess
+      responses:
+        200:
+          description: Foses list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/foses'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /api/v1/fosess/{Id}:
+    x-router-controller: fosesController 
+    get:
+      description: Returns a single foses by its Id
+      operationId: findById
+      parameters:
+        - required: true
+          name: Id
+          description: Id of the foses to fetch
+          in: path
+          schema:
+            type: number
+      responses:
+        200:
+          description: Foses found by Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/foses'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+components:
+  schemas:
+    foses:
+        type: object
+        required:
+          - Id
+        properties:
+          Id:
+            type: number
+          title:
+            type: string
+          province:
+            type: string
+          municipality:
+            type: string
+          dateNumeric:
+            type: number
+          victims:
+            type: number
+          dates_act:
+            type: number
+    error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+      additionalProperties: true
